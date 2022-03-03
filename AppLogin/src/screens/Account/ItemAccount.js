@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
 const ItemAccount = ({user}) => {
-  console.log(user)
   return (
     <View style={{flexDirection: 'row', alignItems: 'center',paddingVertical: 20}}>
       <Image

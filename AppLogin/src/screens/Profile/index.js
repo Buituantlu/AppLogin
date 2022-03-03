@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
-import {Avatar, Title, Caption, Drawer} from 'react-native-paper';
+import {Drawer} from 'react-native-paper';
+import ItemDrawer from './ItemDrawer';
 
-const Profile = (props, {navigation}) => {
+const Profile = (props, {navigation, user}) => {
+  const [data, setData] = React.useState([]);
+  useEffect(() => {
+    axios.get('https://reqres.in/api/users/')
+      .then(({data}) => {
+        setData(data.data)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [setData]);
   return (
     <View style={{flex: 1, paddingHorizontal: 25, backgroundColor: '#FFF'}}>
       <DrawerContentScrollView {...props}>
-        <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}>
-          <Image source={require('../../assets/icons/X.png')} style={{tintColor: '#FF0000'}}/>
+        <TouchableOpacity onPress={() => props.navigation.closeDrawer()}>
+          <Image
+            source={require('../../assets/icons/X.png')}
+            style={{tintColor: '#FF0000'}}
+          />
         </TouchableOpacity>
         <Drawer.Section style={{alignItems: 'center'}}>
-          <Avatar.Image source={require('../../assets/imgs/avatar.jpeg')} />
-          <View style={{marginTop: 15, alignItems: 'center'}}>
-            <Title >Bùi Văn Tuân</Title>
-            <Caption>tuanbv@runsystem.net</Caption>
-          </View>
           <TouchableOpacity
-            style ={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}
+            style={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}
             onPress={() => {
-              props.navigation.navigate('Account');
-            }}>
-            <Image source={require('../../assets/icons/home.png')} style={{height: 30, width: 30, marginRight: 15}}/>
-            <Text style={{fontSize: 20, flex: 1}}>Home</Text>
-            <Image
-              source={require('../../assets/icons/right.png')}
-              style={{tintColor: '#C0C0C0'}}
-            />
+              props.navigation.closeDrawer()}}>
+            <ItemDrawer user={data}/>
           </TouchableOpacity>
         </Drawer.Section>
       </DrawerContentScrollView>
