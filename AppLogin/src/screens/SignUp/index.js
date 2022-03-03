@@ -46,6 +46,9 @@ const SignUp = ({navigation}) => {
           <TextInput />
         </View>
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Test');
+          }}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
