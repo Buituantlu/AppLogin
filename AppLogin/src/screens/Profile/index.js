@@ -13,7 +13,6 @@ const Profile = (props, {navigation, user}) => {
         setData(data.data)
       })
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
   }, [setData]);
   return (
     <View style={{flex: 1, paddingHorizontal: 25, backgroundColor: '#FFF'}}>

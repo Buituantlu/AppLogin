@@ -14,10 +14,8 @@ const SignIn = ({navigation}) => {
     axios.get('https://reqres.in/api/users/')
       .then(({data}) => {
         setData(data.data)
-        setLoading(true)
       })
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
   }, [setData]);
   return (
     <View style={{flex: 1, backgroundColor: '#FFF'}}>
@@ -50,7 +48,7 @@ const SignIn = ({navigation}) => {
         </View>
       <TouchableOpacity onPress={() => {
          if(data==[]) {
-          setLoading == false
+          setLoading(false)
          } else if(
               email == 'ABC' && 
               password == 123){

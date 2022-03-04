@@ -11,6 +11,7 @@ import {
 
 const Account = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -18,8 +19,7 @@ const Account = ({navigation}) => {
       .then(({data}) => {
         setData(data.data);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error('Err in call api',error))
   }, []);
   return (
     <View style={{flex: 1}}>
@@ -34,7 +34,9 @@ const Account = ({navigation}) => {
             </TouchableOpacity>
           );
         }}
-        keyExtractor={item => item.id}
+        keyExtractor={
+          item => item.id.toString()
+        }
         contentContainerStyle={{
           flex: 1,
           paddingHorizontal: 20,
@@ -49,6 +51,7 @@ const Account = ({navigation}) => {
             </TouchableOpacity>
           );
         }}
+        refreshing={loading}
       />
     </View>
   );
