@@ -12,15 +12,25 @@ import {
 const Account = ({navigation}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const HandleItem = () => navigation.navigate('Personal');
-  const OpenDrawer = () => navigation.toggleDrawer();
+  const [indexSelect, setIndexSelect] = React.useState(()=>{
+    return 1
+  });
+  const HandleItem = () => {
+    if(loading){
+      navigation.navigate('Personal');
+      setIndexSelect(data[indexSelect]?.id);
+    } else {
+      alert('error')
+    }
+  };
+  const OpenDrawer = () => navigation.openDrawer();
 
   useEffect(() => {
     axios
       .get('https://reqres.in/api/users/')
       .then(({data}) => {
         setData(data.data);
+        setLoading(true)
       })
       .catch(error => console.error('Err in call api', error));
   }, []);
@@ -30,8 +40,8 @@ const Account = ({navigation}) => {
         data={data}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity onPress={HandleItem} key={item.id}>
-              <ItemAccount user={item} />
+            <TouchableOpacity onPress={HandleItem} >
+              <ItemAccount user={item} isSelect={item.id === indexSelect} setIndexSelect={item.id} />
             </TouchableOpacity>
           );
         }}

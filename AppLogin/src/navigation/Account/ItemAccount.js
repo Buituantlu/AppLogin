@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 
-const ItemAccount = ({user}) => {
+const ItemAccount = ({user, isSelect}) => {
   return (
     <View style={styles.container}>
       <Image source={{uri: user.avatar}} style={styles.imgAvatar} />
@@ -11,7 +11,7 @@ const ItemAccount = ({user}) => {
         </Text>
         <Text style={styles.txtEmail}>{`${user.email}`}</Text>
       </View>
-      <Image source={require('../../assets/icons/right.png')} />
+      <Image style={{tintColor: isSelect ? '#0A84FF' : '#000000'}} source={require('../../assets/icons/right.png')} />
     </View>
   );
 };
