@@ -19,33 +19,27 @@ const Account = ({navigation}) => {
       .then(({data}) => {
         setData(data.data);
       })
-      .catch(error => console.error('Err in call api',error))
+      .catch(error => console.error('Err in call api', error));
   }, []);
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <FlatList
         data={data}
         renderItem={({item}) => {
           return (
             <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
+              onPress={() => navigation.navigate('Personal')}
               key={item.id}>
               <ItemAccount user={item} />
             </TouchableOpacity>
           );
         }}
-        keyExtractor={
-          item => item.id.toString()
-        }
-        contentContainerStyle={{
-          flex: 1,
-          paddingHorizontal: 20,
-          backgroundColor: '#FFF',
-        }}
+        keyExtractor={item => item.id.toString()}
+        contentContainerStyle={styles.content}
         ListHeaderComponent={() => {
           return (
             <TouchableOpacity
-              style={{marginTop: 50}}
+              style={styles.header}
               onPress={() => navigation.toggleDrawer()}>
               <Image source={require('../../assets/icons/more.png')} />
             </TouchableOpacity>
@@ -58,9 +52,17 @@ const Account = ({navigation}) => {
 };
 
 export default Account;
+
 const styles = StyleSheet.create({
-  lottie: {
-    width: 100,
-    height: 100,
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+    backgroundColor: '#FFF',
+  },
+  header: {
+    marginTop: 50,
   },
 });
