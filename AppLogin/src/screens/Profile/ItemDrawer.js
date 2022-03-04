@@ -2,7 +2,6 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 const ItemDrawer = ({user}) => {
-  console.log('datanee', user)
   return (
     <View style={{alignItems: 'center'}}>
       <Image
@@ -11,9 +10,9 @@ const ItemDrawer = ({user}) => {
       />
       <View style={{marginTop: 15, alignItems: 'center'}}>
         <Text style={{color: '#000', fontSize: 20}}>
-          {`${user[3]?.first_name} ${user[5]?.last_name}`}
+          {`${user[0]?.first_name} ${user[0]?.last_name}`}
         </Text>
-        <Text style={{color: '#000', fontSize: 18}}>{`${user[2]?.email}`}</Text>
+        <Text style={{color: '#000', fontSize: 18}}>{`${user[0]?.email}`}</Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center',marginTop: 20}}>
         <Image

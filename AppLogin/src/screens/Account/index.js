@@ -13,12 +13,13 @@ const Account = ({navigation}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-      axios.get('https://reqres.in/api/users/')
-        .then(({ data }) => {
-          setData(data.data)
-        })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+    axios
+      .get('https://reqres.in/api/users/')
+      .then(({data}) => {
+        setData(data.data);
+      })
+      .catch(error => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
   return (
     <View style={{flex: 1}}>
@@ -26,18 +27,24 @@ const Account = ({navigation}) => {
         data={data}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity onPress={() => navigation.openDrawer()} key={item.id}>
+            <TouchableOpacity
+              onPress={() => navigation.openDrawer()}
+              key={item.id}>
               <ItemAccount user={item} />
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(index) => {
-          return index.toString();
+        keyExtractor={item => item.id}
+        contentContainerStyle={{
+          flex: 1,
+          paddingHorizontal: 20,
+          backgroundColor: '#FFF',
         }}
-        contentContainerStyle={{flex: 1,paddingHorizontal: 20 ,backgroundColor: '#FFF'}}
         ListHeaderComponent={() => {
           return (
-            <TouchableOpacity style={{marginTop: 50}} onPress={() => navigation.toggleDrawer()}>
+            <TouchableOpacity
+              style={{marginTop: 50}}
+              onPress={() => navigation.toggleDrawer()}>
               <Image source={require('../../assets/icons/more.png')} />
             </TouchableOpacity>
           );
@@ -45,7 +52,7 @@ const Account = ({navigation}) => {
       />
     </View>
   );
-}
+};
 
 export default Account;
 const styles = StyleSheet.create({

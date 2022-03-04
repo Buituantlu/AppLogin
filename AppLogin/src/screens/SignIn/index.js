@@ -1,11 +1,24 @@
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView} from 'react-native';
-import React from 'react';
+import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Alert} from 'react-native';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isSecureEntry, setIsSecureEntry] = React.useState(false);
   const [visible, setVisible] = React.useState(true);
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    axios.get('https://reqres.in/api/users/')
+      .then(({data}) => {
+        setData(data.data)
+        setLoading(true)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [setData]);
   return (
     <View style={{flex: 1, backgroundColor: '#FFF'}}>
       <View style={{flex: 1, marginTop: 80, alignItems: 'center'}}>
@@ -30,14 +43,21 @@ const SignIn = ({navigation}) => {
             />
             <TouchableOpacity onPress={() => {
                   setVisible(!visible)
-                  setIsSecureEntry(!isSecureEntry)
-                }}>
+                  setIsSecureEntry(!isSecureEntry)}}>
               <Image source={require('../../assets/icons/eye.png')} style={{height: 25, width: 25, tintColor: isSecureEntry ? '#C0C0C0' : '#000' }} />
             </TouchableOpacity>
           </View>
         </View>
       <TouchableOpacity onPress={() => {
-        navigation.navigate('Main')
+         if(data==[]) {
+          setLoading == false
+         } else if(
+              email == 'ABC' && 
+              password == 123){
+            navigation.navigate('Main');
+          } else {
+            alert('Login False')
+          }
       }} style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#CD5C5C', height: 50, borderRadius: 10}}>
         <Text style={{color: '#FFF', fontSize: 17, fontWeight: '700'}}>Sign In</Text>
       </TouchableOpacity>

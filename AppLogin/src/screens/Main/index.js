@@ -5,14 +5,6 @@ import Account from '../Account/index';
 
 const Drawer = createDrawerNavigator();
 
-function Home({ navigation }) {
-  return (
-    <Drawer.Section style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <DrawerItem label='Open' onPress={() => navigation.toggleDrawer()} />
-    </Drawer.Section>
-  );
-}
-
 const Main = () => {
   return (
       <Drawer.Navigator drawerContent={props => <Profile {...props} />}>
