@@ -13,6 +13,9 @@ const Account = ({navigation}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const HandleItem = () => navigation.navigate('Personal');
+  const OpenDrawer = () => navigation.toggleDrawer();
+
   useEffect(() => {
     axios
       .get('https://reqres.in/api/users/')
@@ -27,9 +30,7 @@ const Account = ({navigation}) => {
         data={data}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Personal')}
-              key={item.id}>
+            <TouchableOpacity onPress={HandleItem} key={item.id}>
               <ItemAccount user={item} />
             </TouchableOpacity>
           );
@@ -38,9 +39,7 @@ const Account = ({navigation}) => {
         contentContainerStyle={styles.content}
         ListHeaderComponent={() => {
           return (
-            <TouchableOpacity
-              style={styles.header}
-              onPress={() => navigation.toggleDrawer()}>
+            <TouchableOpacity style={styles.header} onPress={OpenDrawer}>
               <Image source={require('../../assets/icons/more.png')} />
             </TouchableOpacity>
           );

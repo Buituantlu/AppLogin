@@ -18,6 +18,25 @@ const SignIn = ({navigation}) => {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
+  const LoginSignUp = () => {
+    navigation.navigate('SignUp');
+  }
+
+  const LoginSignIn = () => {
+    if (data == []) {
+      setLoading(false);
+    } else if (email == 'ABC' && password == 123) {
+      navigation.navigate('Main');
+    } else {
+      alert('Login False');
+    }
+  }
+
+  const HideAndShowPassword = () => {
+    setVisible(!visible);
+    setIsSecureEntry(!isSecureEntry);
+  }
+
   useEffect(() => {
     axios
       .get('https://reqres.in/api/users/')
@@ -26,6 +45,7 @@ const SignIn = ({navigation}) => {
       })
       .catch(error => console.error(error));
   }, [setData]);
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -52,10 +72,7 @@ const SignIn = ({navigation}) => {
               style={styles.inputPass}
             />
             <TouchableOpacity
-              onPress={() => {
-                setVisible(!visible);
-                setIsSecureEntry(!isSecureEntry);
-              }}>
+              onPress={HideAndShowPassword}>
               <Image
                 source={require('../../assets/icons/eye.png')}
                 style={styles.imgEye}
@@ -64,24 +81,14 @@ const SignIn = ({navigation}) => {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => {
-            if (data == []) {
-              setLoading(false);
-            } else if (email == 'ABC' && password == 123) {
-              navigation.navigate('Main');
-            } else {
-              alert('Login False');
-            }
-          }}
+          onPress={LoginSignIn}
           style={styles.btnSignIn}>
           <Text style={styles.txtButton}>Sign In</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       <TouchableOpacity
         style={styles.btnFooter}
-        onPress={() => {
-          navigation.navigate('SignUp');
-        }}>
+        onPress={LoginSignUp}>
         <Text style={styles.txtFooter}>Sign Up</Text>
       </TouchableOpacity>
     </View>

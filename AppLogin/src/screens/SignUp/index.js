@@ -8,6 +8,14 @@ import {
 import React from 'react';
 
 const SignUp = ({navigation}) => {
+  const Continue = () => {
+    navigation.navigate('SignIn');
+  }
+
+  const LoginSignIn = () => {
+    navigation.navigate('SignIn');
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -21,9 +29,7 @@ const SignUp = ({navigation}) => {
           <TextInput />
         </View>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Main');
-          }}
+          onPress={Continue}
           style={styles.button}>
           <Text style={styles.txtButton}>Continue</Text>
         </TouchableOpacity>
@@ -31,9 +37,7 @@ const SignUp = ({navigation}) => {
       <View style={styles.footer}>
         <Text style={styles.txtFooter}>Have an Account?</Text>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('SignIn');
-          }}>
+          onPress={LoginSignIn}>
           <Text style={styles.txtSignIn}>Sign In</Text>
         </TouchableOpacity>
       </View>

@@ -7,6 +7,9 @@ import ItemDrawer from './ItemDrawer';
 
 const Profile = props => {
   const [data, setData] = React.useState([]);
+
+  const CloseDrawer = () => props.navigation.closeDrawer();
+
   useEffect(() => {
     axios
       .get('https://reqres.in/api/users/')
@@ -18,7 +21,7 @@ const Profile = props => {
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
-        <TouchableOpacity onPress={() => props.navigation.closeDrawer()}>
+        <TouchableOpacity onPress={CloseDrawer}>
           <Image
             source={require('../../assets/icons/X.png')}
             style={styles.header}
@@ -27,9 +30,7 @@ const Profile = props => {
         <Drawer.Section style={styles.content}>
           <TouchableOpacity
             style={styles.btnContent}
-            onPress={() => {
-              props.navigation.closeDrawer();
-            }}>
+            onPress={CloseDrawer}>
             <ItemDrawer user={data} />
           </TouchableOpacity>
         </Drawer.Section>
