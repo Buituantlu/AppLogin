@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import React, {useEffect} from 'react';
 import axios from 'axios';
+import { authActions } from '../../redux/authSlice';
+import { useAppDispatch } from '../../redux/hooks';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = React.useState('');
@@ -22,15 +24,21 @@ const SignIn = ({navigation}) => {
     navigation.navigate('SignUp');
   }
 
+  const dispatch = useAppDispatch();
+
   const LoginSignIn = () => {
-    if (data == []) {
-      setLoading(false);
-    } else if (email == 'ABC' && password == 123) {
-      navigation.navigate('Main');
-    } else {
-      alert('Login False');
-    }
-  }
+    // if (data == []) {
+    //   setLoading(false);
+    // } else if (email == 'ABC' && password == 123) {
+    //   navigation.navigate('Main');
+    // } else {
+    //   alert('Login False');
+    // }
+    dispatch(authActions.login({
+      username: '',
+      password: '',
+    }));
+  };
 
   const HideAndShowPassword = () => {
     setVisible(!visible);
