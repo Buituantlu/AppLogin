@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import ItemAccount from '../Account/ItemAccount';
+import { useDispatch } from 'react-redux';
 import {
   StyleSheet,
+  Text,
   View,
   Image,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import { Logout } from '../../../redux/action';
 
 const Account = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -23,6 +26,11 @@ const Account = ({navigation}) => {
       alert('error')
     }
   };
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(Logout())
+  }
   const OpenDrawer = () => navigation.openDrawer();
 
   useEffect(() => {
@@ -49,9 +57,19 @@ const Account = ({navigation}) => {
         contentContainerStyle={styles.content}
         ListHeaderComponent={() => {
           return (
-            <TouchableOpacity style={styles.header} onPress={OpenDrawer}>
-              <Image source={require('../../assets/icons/more.png')} />
-            </TouchableOpacity>
+            <View style={styles.header} >
+              <TouchableOpacity onPress={OpenDrawer}>
+                <Image source={require('../../../assets/icons/more.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.btnLogout}
+                onPress={handleLogout} >
+                <Text style={styles.txtLogout}>
+                  Logout
+                </Text>
+              </TouchableOpacity>
+            </View>
+
           );
         }}
         refreshing={loading}
@@ -72,6 +90,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   header: {
-    marginTop: 50,
+    flexDirection: 'row', 
+    marginTop: 50, 
+    alignItems: 'center', 
+    justifyContent: 'space-between'
+  },
+  btnLogout: {
+    height:35, 
+    width:100, 
+    borderRadius: 17, 
+    backgroundColor: '#710710',
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  txtLogout: {
+    color: '#FFF', 
+    fontSize: 20
   },
 });

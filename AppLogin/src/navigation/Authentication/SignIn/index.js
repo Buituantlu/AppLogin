@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import { authActions } from '../../redux/authSlice';
-import { useAppDispatch } from '../../redux/hooks';
+import { useDispatch } from 'react-redux';
+import { Login } from '../../../redux/action';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = React.useState('');
@@ -19,25 +19,14 @@ const SignIn = ({navigation}) => {
   const [visible, setVisible] = React.useState(true);
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-
+  const dispatch = useDispatch();
+  
   const LoginSignUp = () => {
     navigation.navigate('SignUp');
   }
 
-  const dispatch = useAppDispatch();
-
   const LoginSignIn = () => {
-    // if (data == []) {
-    //   setLoading(false);
-    // } else if (email == 'ABC' && password == 123) {
-    //   navigation.navigate('Main');
-    // } else {
-    //   alert('Login False');
-    // }
-    dispatch(authActions.login({
-      username: '',
-      password: '',
-    }));
+    dispatch(Login(email, password))
   };
 
   const HideAndShowPassword = () => {
@@ -58,7 +47,7 @@ const SignIn = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require('../../assets/icons/cloud.png')}
+          source={require('../../../assets/icons/cloud.png')}
           style={styles.imgHeader}
         />
         <Text style={styles.txtHeader}>Company Name</Text>
@@ -82,7 +71,7 @@ const SignIn = ({navigation}) => {
             <TouchableOpacity
               onPress={HideAndShowPassword}>
               <Image
-                source={require('../../assets/icons/eye.png')}
+                source={require('../../../assets/icons/eye.png')}
                 style={styles.imgEye}
               />
             </TouchableOpacity>

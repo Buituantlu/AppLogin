@@ -11,7 +11,7 @@ const ItemAccount = ({user, isSelect}) => {
         </Text>
         <Text style={styles.txtEmail}>{`${user.email}`}</Text>
       </View>
-      <Image style={{tintColor: isSelect ? '#0A84FF' : '#000000'}} source={require('../../assets/icons/right.png')} />
+      <Image style={{tintColor: isSelect ? '#0A84FF' : '#000000'}} source={require('../../../assets/icons/right.png')} />
     </View>
   );
 };

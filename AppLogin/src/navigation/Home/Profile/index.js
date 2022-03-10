@@ -23,7 +23,7 @@ const Profile = props => {
       <DrawerContentScrollView {...props}>
         <TouchableOpacity onPress={CloseDrawer}>
           <Image
-            source={require('../../assets/icons/X.png')}
+            source={require('../../../assets/icons/X.png')}
             style={styles.header}
           />
         </TouchableOpacity>
