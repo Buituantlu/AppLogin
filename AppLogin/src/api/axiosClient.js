@@ -1,23 +1,23 @@
-import axios from 'axios';
-import apisauce from 'apisauce';
+import { create } from 'apisauce';
+	
+const request = create({
+  baseURL: 'http://5c2eb79a2fffe80014bd696b.mockapi.io/api/v1',
+});
 
-const endpoint = {
-  login : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
+function login(username, password) {
+  console.log(`Request: ${username} ${password}`);
+  return request
+    .post('/sign_in')
+    .then(response => {
+      console.log('Request response', response);
+      return {
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
+      };
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
-export const userLogin = async (user) => {
-   const response = await fetch(endpoint.login,{
-       method: 'POST',
-       headers: { 
-           'Content-Type' : 'application/json' 
-       },
-       body: JSON.stringify({
-           email: user.email,
-           password: user.password, 
-           returnSecureToken: true
-       })
-   })
-   if(!response.ok) throw new Error('Something Went Wrong!!');
-   const responseData = await response.json()
-   return responseData.email
-}
+export default login

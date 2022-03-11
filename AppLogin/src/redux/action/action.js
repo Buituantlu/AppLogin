@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-community/async-storage";
-import { LOGIN, LOGOUT, REQUEST_API_DATA, REQUEST_API_DATA_SUCCESS } from "./consAction";
+import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT, REQUEST_API_DATA, REQUEST_API_DATA_SUCCESS } from "./consAction";
 
 export const Init = () => {
   return async dispatch => {
@@ -28,6 +28,16 @@ export const Login = (username, password) => {
     })
   }  
 }
+
+export const LoginSuccess = payload => ({
+  type: LOGIN_SUCCESS,
+  payload,
+});
+
+export const LoginFailure = payload => ({
+  type: LOGIN_FAILURE,
+  payload,
+});
 
 export const Logout = () => {
     return async dispatch => {
