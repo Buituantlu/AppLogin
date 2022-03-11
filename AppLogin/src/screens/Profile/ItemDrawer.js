@@ -13,12 +13,12 @@ const ItemDrawer = ({user}) => {
       </View>
       <View style={styles.itemDraw}>
         <Image
-          source={require('../../../assets/icons/home.png')}
+          source={require('../../assets/icons/home.png')}
           style={styles.imgDraw}
         />
         <Text style={styles.txtDraw}>Home</Text>
         <Image
-          source={require('../../../assets/icons/right.png')}
+          source={require('../../assets/icons/right.png')}
           style={styles.imgRight}
         />
       </View>

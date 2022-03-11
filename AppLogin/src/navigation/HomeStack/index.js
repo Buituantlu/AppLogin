@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Profile from './Profile/index';
-import Account from './Account/index';
-import Personal from './Personal/index';
+import Profile from '../../screens/Profile/index';
+import Account from '../../screens/Account/index';
+import Personal from '../../screens/Personal/index';
 
 const Drawer = createDrawerNavigator();
 

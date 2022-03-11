@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { Login } from '../../../redux/action';
+import { useDispatch } from 'react-redux'
+import { Login } from '../../redux/action/action';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = React.useState('');
@@ -47,7 +47,7 @@ const SignIn = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require('../../../assets/icons/cloud.png')}
+          source={require('../../assets/icons/cloud.png')}
           style={styles.imgHeader}
         />
         <Text style={styles.txtHeader}>Company Name</Text>
@@ -71,7 +71,7 @@ const SignIn = ({navigation}) => {
             <TouchableOpacity
               onPress={HideAndShowPassword}>
               <Image
-                source={require('../../../assets/icons/eye.png')}
+                source={require('../../assets/icons/eye.png')}
                 style={styles.imgEye}
               />
             </TouchableOpacity>

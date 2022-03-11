@@ -4,30 +4,18 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignIn from './src/navigation/Authentication/SignIn';
-import SignUp from './src/navigation/Authentication/SignUp';
 import { Provider, useSelector, useDispatch } from 'react-redux';
-import { store } from './src/redux/store'
-import Home from './src/navigation/Home/index';
-import { Init } from './src/redux/action';
+import store from './src/redux/store/store'
+import Home from './src/navigation/HomeStack/index';
+import Authentication from './src/navigation/Authentication/index';
+import { Init } from './src/redux/action/action';
 import { ActivityIndicator } from 'react-native-paper';
 
-const AuthStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
-
-const Authentication = () => {
-  return (
-        <AuthStack.Navigator>
-          <AuthStack.Screen name="SignIn" component={SignIn} options={{headerShown: false}} />
-          <AuthStack.Screen name="SignUp" component={SignUp} />
-        </AuthStack.Navigator>
-  );
-}
 
 const RootStack = () => {
   const [loading, setLoading] = React.useState(true);
   const token = useSelector(state => state.AuthReducers.authToken)
-
   const dispatch = useDispatch();
   const init = async () => {
     await dispatch(Init());
@@ -46,7 +34,7 @@ const RootStack = () => {
   }
   return (
     <NavigationContainer>
-      {token === null ? 
+      {!token ? 
         <Authentication /> : <Home />
       }
     </NavigationContainer>

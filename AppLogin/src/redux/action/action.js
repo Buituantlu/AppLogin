@@ -1,14 +1,12 @@
 import AsyncStorage from "@react-native-community/async-storage";
-
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+import { LOGIN, LOGOUT, REQUEST_API_DATA, REQUEST_API_DATA_SUCCESS } from "./consAction";
 
 export const Init = () => {
   return async dispatch => {
     let token = await AsyncStorage.getItem('token');
     if(token !== null) {
       dispatch({
-        type: 'LOGIN',
+        type: LOGIN,
         payload: token,
       })
     }
@@ -25,7 +23,7 @@ export const Login = (username, password) => {
       alert('User have not account')
     }
     dispatch({
-      type: 'LOGIN',
+      type: LOGIN,
       payload: token,
     })
   }  

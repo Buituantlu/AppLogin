@@ -10,7 +10,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import { Logout } from '../../../redux/action';
+import { Logout } from '../../redux/action/action';
 
 const Account = ({navigation}) => {
   const [data, setData] = useState([]);
@@ -59,7 +59,7 @@ const Account = ({navigation}) => {
           return (
             <View style={styles.header} >
               <TouchableOpacity onPress={OpenDrawer}>
-                <Image source={require('../../../assets/icons/more.png')} />
+                <Image source={require('../../assets/icons/more.png')} />
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.btnLogout}
