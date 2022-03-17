@@ -5,8 +5,11 @@ import {useDispatch} from 'react-redux';
 import {actionGetUser} from './action/GetUserAction';
 import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native';
 import {storeData} from '../../utils/AsyncStorage'
+import { AUTH_STACK } from '../../navigation/ScreenName';
+import { useNavigation } from '@react-navigation/native';
 
-const Account = ({navigation}) => {
+const Account = () => {
+  const navigation = useNavigation()
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,6 +32,7 @@ const Account = ({navigation}) => {
   };
   const Logout = async() => {
     storeData('accessToken', '')
+    navigation.navigate(AUTH_STACK)
   }
   const HandleItem = () => {
     if (!loading) {

@@ -3,9 +3,11 @@ import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionLogin } from '../action/LoginAction';
 import { storeData } from '../../../utils/AsyncStorage';
-import { AsyncStorage } from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { HOME_STACK } from '../../../navigation/ScreenName';
 
 const BtnLogin = ({values}) => {
+  const navigation = useNavigation()
   const dispatch = useDispatch();
   const LoginSignIn = () => {
     const params = {
@@ -17,7 +19,7 @@ const BtnLogin = ({values}) => {
   const onSuccess = async (response) => {
     const token = response.data.token;
     await storeData(`accessToken`, `${token}`)
-    alert('Login Success')
+    navigation.navigate(HOME_STACK)
   }
   const onError = (error) => {
     console.log('Login error: ', error)

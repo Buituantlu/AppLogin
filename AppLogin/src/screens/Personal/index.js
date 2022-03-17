@@ -7,6 +7,8 @@ import _ from 'lodash';
 const Personal = () => {
   const [user, setUser] = React.useState([]);
   const [edit, setEdit] = React.useState('');
+  const [hide, setHide] = React.useState(true);
+
   const getUser = async () => {
     const info = await getData('InfoUser');
     return info;

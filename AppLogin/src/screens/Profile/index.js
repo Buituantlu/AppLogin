@@ -1,13 +1,15 @@
-import React, {useEffect, Component} from 'react';
+import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {Drawer} from 'react-native-paper';
 import ItemDrawer from './ItemDrawer';
 import { getData } from '../../utils/AsyncStorage';
 import _ from 'lodash';
+import { useNavigation } from '@react-navigation/native';
 
-const Profile = props => {
+const Profile = (props) => {
   const CloseDrawer = () => props.navigation.closeDrawer();
+  const navigation = useNavigation();
   const [user, setUser] = React.useState([])
   const getUser = async () =>  {
     const info = await getData('InfoUser');
@@ -19,6 +21,7 @@ const Profile = props => {
     users = token
     setUser(users)
   })}
+
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -31,7 +34,9 @@ const Profile = props => {
         <Drawer.Section style={styles.content}>
           <TouchableOpacity
             style={styles.btnContent}
-            onPress={CloseDrawer}>
+            onPress={() => {
+              navigation.navigate('Account')
+            }}>
             <ItemDrawer user={user} />
           </TouchableOpacity>
         </Drawer.Section>

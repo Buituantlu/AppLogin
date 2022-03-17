@@ -8,12 +8,13 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import InputAuth from '../../common/component/InputAuth';
-import { HOME_STACK } from '../../navigation/ScreenName';
+import { useNavigation } from '@react-navigation/native';
+import SignUp from '../SignUp/index';
 
-const SignIn = ({navigation}) => {
-
+const SignIn = () => {
+  const navigation = useNavigation()
   const LoginSignUp = () => {
-    navigation.navigate(HOME_STACK)
+    navigation.navigate(SignUp)
   }
   
   return (
