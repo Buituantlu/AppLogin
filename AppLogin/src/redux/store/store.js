@@ -1,13 +1,12 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from 'redux-saga';
-import {AuthReducers} from '../reducer/reducer';
-import rootSaga from "../saga/rootSaga";
-const sagaMiddleware = createSagaMiddleware();
-const rootReducers = combineReducers({
-    AuthReducers,
-});
+import rootSagas from "../saga/index";
+import rootReducers from '../reducers/index';
 
-const store = createStore(rootReducers, applyMiddleware(thunk, sagaMiddleware));
-sagaMiddleware.run(rootSaga);
+const sagaMiddleware = createSagaMiddleware();
+let store;
+if (__DEV__) {
+  store = createStore(rootReducers, applyMiddleware(sagaMiddleware));
+} 
+sagaMiddleware.run(rootSagas);
 export default store;

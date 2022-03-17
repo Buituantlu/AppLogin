@@ -1,0 +1,1 @@
+export const ERROR_NETWORK = 'ERROR_NETWORK';

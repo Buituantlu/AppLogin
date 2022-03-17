@@ -1,27 +1,24 @@
 import React, {useEffect, Component} from 'react';
-import axios from 'axios';
 import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {Drawer} from 'react-native-paper';
 import ItemDrawer from './ItemDrawer';
-import { REQUEST_API_DATA } from '../../redux/action/consAction';
-import { getData } from '../../api/axiosClient';
-import { connect } from 'react-redux';
+import { getData } from '../../utils/AsyncStorage';
+import _ from 'lodash';
 
 const Profile = props => {
-  const [data, setData] = React.useState([]);
-
   const CloseDrawer = () => props.navigation.closeDrawer();
-
-  useEffect(() => {
-    axios
-      .get('https://reqres.in/api/users/')
-      .then(({data}) => {
-        setData(data.data);
-      })
-      .catch(error => console.error(error));
-  }, [setData]);
-  
+  const [user, setUser] = React.useState([])
+  const getUser = async () =>  {
+    const info = await getData('InfoUser');
+    return info;
+  }
+  if(_.isEmpty(user)){
+    let users = null 
+    getUser().then(token => {
+    users = token
+    setUser(users)
+  })}
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -35,29 +32,14 @@ const Profile = props => {
           <TouchableOpacity
             style={styles.btnContent}
             onPress={CloseDrawer}>
-            <ItemDrawer user={data} />
+            <ItemDrawer user={user} />
           </TouchableOpacity>
         </Drawer.Section>
       </DrawerContentScrollView>
     </View>
   );
 };
-
-const mapStateToProps = state => {
-  return {
-    users: state.users,
-    error: state.error,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getData: () => dispatch({ type: REQUEST_API_DATA })
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
-
+export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

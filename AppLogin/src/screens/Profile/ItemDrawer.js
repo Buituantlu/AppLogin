@@ -4,12 +4,12 @@ import React from 'react';
 const ItemDrawer = ({user}) => {
   return (
     <View style={styles.container}>
-      <Image source={{uri: user[0]?.avatar}} style={styles.imgAvatar} />
+      <Image source={{uri: user.avatar}} style={styles.imgAvatar} />
       <View style={styles.name}>
         <Text style={styles.txtNameUser}>
-          {`${user[0]?.first_name} ${user[0]?.last_name}`}
+          {user.first_name} {user.last_name}
         </Text>
-        <Text style={styles.txtEmail}>{`${user[0]?.email}`}</Text>
+        <Text style={styles.txtEmail}>{user.email}</Text>
       </View>
       <View style={styles.itemDraw}>
         <Image

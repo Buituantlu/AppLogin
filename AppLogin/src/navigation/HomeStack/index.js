@@ -6,11 +6,11 @@ import Personal from '../../screens/Personal/index';
 
 const Drawer = createDrawerNavigator();
 
-const Home = () => {
+function Home() {
   return (
       <Drawer.Navigator drawerContent={props => <Profile {...props} />}>
-        <Drawer.Screen name="Account" component={Account} options={{headerShown: false}} />
-        <Drawer.Screen name="Personal" component={Personal} options={{headerShown: false}} />
+        <Drawer.Screen name="Account" component={Account}/>
+        <Drawer.Screen name="Personal" component={Personal}/>
       </Drawer.Navigator>
   );
 }

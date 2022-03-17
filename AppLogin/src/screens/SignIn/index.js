@@ -1,47 +1,20 @@
+import React from 'react';
 import {
   Image,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   KeyboardAvoidingView,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux'
-import { Login } from '../../redux/action/action';
+import InputAuth from '../../common/component/InputAuth';
+import { HOME_STACK } from '../../navigation/ScreenName';
 
 const SignIn = ({navigation}) => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [isSecureEntry, setIsSecureEntry] = React.useState(false);
-  const [visible, setVisible] = React.useState(true);
-  const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-  const dispatch = useDispatch();
-  
+
   const LoginSignUp = () => {
-    navigation.navigate('SignUp');
+    navigation.navigate(HOME_STACK)
   }
-
-  const LoginSignIn = () => {
-    dispatch(Login(email, password))
-  };
-
-  const HideAndShowPassword = () => {
-    setVisible(!visible);
-    setIsSecureEntry(!isSecureEntry);
-  }
-
-  useEffect(() => {
-    axios
-      .get('https://reqres.in/api/users/')
-      .then(({data}) => {
-        setData(data.data);
-      })
-      .catch(error => console.error(error));
-  }, [setData]);
   
   return (
     <View style={styles.container}>
@@ -55,33 +28,7 @@ const SignIn = ({navigation}) => {
       <KeyboardAvoidingView behavior="padding" style={styles.content}>
         <Text style={styles.txtContent}>Sign In</Text>
         <Text style={styles.txtDes}>Hi there! Nice to see you again.</Text>
-        <View style={styles.email}>
-          <Text style={styles.txtEmail}>Email</Text>
-          <TextInput value={email} onChangeText={e => setEmail(e)} />
-        </View>
-        <View style={styles.password}>
-          <Text style={styles.txtPassword}>Password</Text>
-          <View style={styles.eye}>
-            <TextInput
-              value={password}
-              onChangeText={e => setPassword(e)}
-              secureTextEntry={visible}
-              style={styles.inputPass}
-            />
-            <TouchableOpacity
-              onPress={HideAndShowPassword}>
-              <Image
-                source={require('../../assets/icons/eye.png')}
-                style={styles.imgEye}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={LoginSignIn}
-          style={styles.btnSignIn}>
-          <Text style={styles.txtButton}>Sign In</Text>
-        </TouchableOpacity>
+        <InputAuth navigation={navigation}/>
       </KeyboardAvoidingView>
       <TouchableOpacity
         style={styles.btnFooter}
@@ -126,50 +73,6 @@ const styles = StyleSheet.create({
     color: '#808080',
     fontSize: 16,
     marginBottom: 30,
-  },
-  email: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
-    marginBottom: 20,
-  },
-  txtEmail: {
-    color: '#FF0000',
-    fontSize: 16,
-    fontWeight: '700',
-    paddingBottom: 15,
-  },
-  password: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
-    marginBottom: 30,
-  },
-  txtPassword: {
-    color: '#FF0000',
-    fontSize: 16,
-    fontWeight: '700',
-    paddingBottom: 15,
-  },
-  eye: {
-    flexDirection: 'row',
-  },
-  inputPass: {
-    flex: 1,
-  },
-  imgEye: {
-    height: 25,
-    width: 25,
-  },
-  btnSignIn: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#CD5C5C',
-    height: 50,
-    borderRadius: 10,
-  },
-  txtButton: {
-    color: '#FFF',
-    fontSize: 17,
-    fontWeight: '700',
   },
   btnFooter: {
     marginBottom: 75,
