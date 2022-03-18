@@ -1,5 +1,4 @@
-import {LOGIN, LOG_OUT} from './ActionType';
-import { AsyncStorage } from '@react-native-community/async-storage';
+import {LOGIN} from './ActionType';
 
 export const actionLogin = (params, onSuccess, onError) => ({
   type: LOGIN,

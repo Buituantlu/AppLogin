@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Formik} from 'formik';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import * as Yup from 'yup';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { HOME_STACK } from '../../navigation/ScreenName';
-import { actionLogin } from '../../screens/SignIn/action/LoginAction';
 import BtnLogin from '../../screens/SignIn/component/BtnLogin';
+import Colors from '../../utils/Colors';
+import strings from '../../utils/Strings';
+import Images from '../../utils/Images';
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email!')
@@ -39,7 +41,7 @@ function InputAuth({navigation}) {
         return (
           <SafeAreaView>
             <View style={styles.email}>
-              <Text style={styles.txtEmail}>Email</Text>
+              <Text style={styles.txtEmail}>{strings.Email}</Text>
               <TextInput
                 value={email}
                 onBlur={handleBlur('email')}
@@ -51,7 +53,7 @@ function InputAuth({navigation}) {
               </Text> : null}
             </View>
             <View style={styles.password}>
-              <Text style={styles.txtPassword}>Password</Text>
+              <Text style={styles.txtPassword}>{strings.Password}</Text>
               <View style={styles.eye}>
                 <TextInput
                   value={password}
@@ -64,7 +66,7 @@ function InputAuth({navigation}) {
                   onPress={HideAndShowPassword} 
                   style={styles.btnEye}>
                   <Image
-                    source={require('../../assets/icons/eye.png')}
+                    source={Images.eye}
                     style={styles.imgEye}
                   />
                 </TouchableOpacity>
@@ -89,11 +91,11 @@ const styles = StyleSheet.create({
   },
   inputEmail: {
     borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
+    borderBottomColor: Colors.gray,
     marginBottom: 5,
   },
   txtEmail: {
-    color: '#FF0000',
+    color: Colors.red,
     fontSize: 16,
     fontWeight: '700',
     paddingBottom: 15,
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   txtPassword: {
-    color: '#FF0000',
+    color: Colors.red,
     fontSize: 16,
     fontWeight: '700',
     paddingBottom: 15,
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
   inputPass: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
+    borderBottomColor: Colors.gray,
     marginBottom: 5,
   },
   imgEye: {

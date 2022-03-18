@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Authentication from './Authentication';
 import Home from './HomeStack';
 import {navigationRef} from '../common/NavigationService';
@@ -9,6 +9,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import { AUTH_STACK, HOME_STACK } from './ScreenName';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getData } from '../utils/AsyncStorage';
+import Colors from '../utils/Colors';
 
 const Stack = createNativeStackNavigator();
 function RootStack() {
@@ -19,18 +20,19 @@ function RootStack() {
     return initToken;
   };
 
-  if (_.isEmpty(AccessToken)) {
+  if (!_.isEmpty(AccessToken)) {
     getToken().then(token => {
       let accessToken = token;
       setAccessToken(accessToken);
+      setLoading(false)
     }).catch(err => console.log(err))
   }
 
   console.log(AccessToken);
   if (loading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <ActivityIndicator size="large" color="#000" />
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={Colors.black} />
       </View>
     );
   }
@@ -51,10 +53,17 @@ function RootStack() {
           component={Authentication}
           options={{headerShown: false}}
         />
-        <Stack.Screen name='HOME_STACK' component={Home} options={{headerShown: false}} />
+        <Stack.Screen name={HOME_STACK} component={Home} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 export default RootStack;
+
+const styles = StyleSheet.create({
+  loading: {
+    flex: 1, 
+    justifyContent: 'center'
+  }
+})

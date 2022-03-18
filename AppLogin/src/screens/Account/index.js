@@ -1,111 +1,116 @@
-import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import ItemAccount from '../Account/ItemAccount';
 import {useDispatch} from 'react-redux';
 import {actionGetUser} from './action/GetUserAction';
-import {StyleSheet, View, FlatList, TouchableOpacity, Text} from 'react-native';
-import {storeData} from '../../utils/AsyncStorage'
-import { AUTH_STACK } from '../../navigation/ScreenName';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, FlatList, View } from 'react-native';
+import _ from 'lodash';
+import Colors from '../../utils/Colors';
+import { ActivityIndicator } from 'react-native-paper';
 
 const Account = () => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [indexSelect, setIndexSelect] = React.useState(() => {
-    return 1;
-  });
-  const GetUser = () => {
-    dispatch(actionGetUser(onSuccess, onError));
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [indexSelect, setIndexSelect] = useState(0);
+  const pageSize = 10;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchData(1);
+  }, []);
+
+  const fetchData = pageNumber => {
+    const params = {
+      page: pageNumber,
+      per_page: pageSize,
+    };
+    dispatch(actionGetUser(params, onSuccess, onError));
     setLoading(true);
   };
-  const onSuccess = async(response) => {
-    const dataUser = response.data.data
-    setData([dataUser]);
-    storeData('InfoUser', dataUser)
-    setLoading(false)
+
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={Colors.black} />
+      </View>
+    );
+  }
+  const onLoadMore = () => {
+    setCurrentPage(currentPage + 1);
+    if (currentPage > totalPage) {
+      console.log('list user end');
+    } else {
+      fetchData(currentPage);
+    }
+    // check neu currentPage > totalPage thi khong fetData
+  };
+
+  const onSuccess = async response => {
+    const _total = response.data.total_pages;
+    setTotalPage(_total);
+
+    const dataUser = response.data.data;
+    // check xem la data loadmore hay la lan dau
+    // lan dau thif setData()
+    // neu la loadmore =>
+    // lay stateCu + reponse moi: data + reponse
+    if (currentPage == 1) {
+      setData(dataUser);
+      console.log('day la lan dau fetch data');
+    } else if (currentPage <= totalPage) {
+      setData([...data, ...dataUser]);
+    } else {
+      return;
+    }
+    setLoading(false);
   };
 
   const onError = error => {
     console.log('GetUser error: ', error);
-  };
-  const Logout = async() => {
-    storeData('accessToken', '')
-    navigation.navigate(AUTH_STACK)
-  }
-  const HandleItem = () => {
-    if (!loading) {
-      navigation.navigate('Personal');
-      // setIndexSelect(data[indexSelect]?.id);
-    } else {
-      alert('error');
-    }
+    setLoading(false);
   };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity onPress={HandleItem}>
-              <ItemAccount
-                user={item}
-                isSelect={item.id === indexSelect}
-                setIndexSelect={item.id}
-              />
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={item => item.id.toString()}
-        contentContainerStyle={styles.content}
-        refreshing={loading}
-        ListHeaderComponent={() => {
-          return (
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <TouchableOpacity
-                onPress={GetUser}
-                style={styles.txtBtnLeft}>
-                <Text
-                  style={styles.txtBtnHeader}>
-                  GET_USER
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                onPress={Logout}
-                style={styles.txtBtnLeft}>
-                <Text style={styles.txtBtnHeader}>
-                  LOG_OUT
-                </Text>
-              </TouchableOpacity>
-            </View>
-          );
-        }}
-      />
-    </View>
+    <FlatList
+      data={data}
+      style={styles.flatList}
+      renderItem={({item, index}) => {
+        return (
+          <ItemAccount
+            user={item}
+            isSelect={index === indexSelect}
+            indexSelect={indexSelect}
+            index={index}
+            setIndexSelect={setIndexSelect}
+          />
+        );
+      }}
+      keyExtractor={item => item.id}
+      refreshing={loading}
+      onEndReached={onLoadMore}
+      onEndReachedThreshold={0.5}
+    />
   );
 };
 
-export default Account;
+export default memo(Account);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: '#FFF',
-  },
   txtBtnHeader: {
-    color: '#fff', 
-    fontSize: 20, 
-    textAlign: 'center'
+    color: Colors.white,
+    fontSize: 20,
+    textAlign: 'center',
   },
-  txtBtnLeft: {
-    backgroundColor: '#710',
-    borderRadius: 20,
-    width: '35%',
+  flatList: {
+    paddingHorizontal: 20,
+    backgroundColor: Colors.white,
+  },
+  loading: {
+    flex: 1, 
+    justifyContent: 'center'
   }
 });

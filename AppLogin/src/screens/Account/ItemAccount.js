@@ -1,18 +1,32 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Colors from '../../utils/Colors';
+import Images from '../../utils/Images';
+import { PersonalScreen } from '../../navigation/ScreenName';
 
-const ItemAccount = ({user, isSelect}) => {
+const ItemAccount = ({user, isSelect ,setIndexSelect, index}) => {
+  const navigation = useNavigation()
   return (
-    <View style={styles.container}>
-      <Image source={{uri: user.avatar}} style={styles.imgAvatar} />
-      <View style={styles.name}>
-        <Text style={styles.txtName}>
-          {`${user.first_name} ${user.last_name}`}
-        </Text>
-        <Text style={styles.txtEmail}>{`${user.email}`}</Text>
+    <TouchableOpacity 
+      onPress={() => {
+        navigation.navigate(PersonalScreen,{index});
+        setIndexSelect(index);
+      }}>
+      <View style={styles.container}>
+        <Image source={{uri: user.avatar}} style={styles.imgAvatar} />
+        <View style={styles.name}>
+          <Text style={styles.txtName}>
+            {`${user.first_name} ${user.last_name}`}
+          </Text>
+          <Text style={styles.txtEmail}>{`${user.email}`}</Text>
+        </View>
+        <Image
+          style={{tintColor: isSelect ? Colors.blue : Colors.black}}
+          source={Images.right}
+        />
       </View>
-      <Image style={{tintColor: isSelect ? '#0A84FF' : '#000000'}} source={require('../../assets/icons/right.png')} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -20,25 +34,25 @@ export default ItemAccount;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    paddingVertical: 20
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
   },
   imgAvatar: {
-    width: 88, 
-    height: 88, 
-    borderRadius: 64, 
-    marginRight: 15
+    width: 88,
+    height: 88,
+    borderRadius: 64,
+    marginRight: 15,
   },
   name: {
-    flex: 1
+    flex: 1,
   },
   txtName: {
-    color: '#000', 
-    fontSize: 20
+    color: Colors.black,
+    fontSize: 20,
   },
   txtEmail: {
-    color: '#000', 
-    fontSize: 18
+    color: Colors.black,
+    fontSize: 18,
   },
 });

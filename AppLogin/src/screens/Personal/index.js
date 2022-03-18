@@ -1,77 +1,104 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {Image, StyleSheet, View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {Title, Caption} from 'react-native-paper';
-import {getData} from '../../utils/AsyncStorage';
-import _ from 'lodash';
+import { useSelector } from 'react-redux';
+import _ from 'lodash'
+import {strings} from '../../utils/Strings'
+import { useNavigation } from '@react-navigation/native';
+import Colors from '../../utils/Colors';
+import Images from '../../utils/Images';
 
-const Personal = () => {
-  const [user, setUser] = React.useState([]);
+const Personal = ({route}) => {
   const [edit, setEdit] = React.useState('');
-  const [hide, setHide] = React.useState(true);
+  const [hide, setHide] = React.useState(false);
+  const navigation = useNavigation();
+  const _index = route.params.index;
+  
+  const user = useSelector((state) => state.getUserReducers.getUserReducer.users[_index]);
 
-  const getUser = async () => {
-    const info = await getData('InfoUser');
-    return info;
+  const handleEdit = () => {
+    console.log('asas')
+    setHide(!hide)
   };
-  if (_.isEmpty(user)) {
-    let users = null;
-    getUser().then(token => {
-      users = token;
-      setUser(users);
-    });
+  const editName = () => {
+    console.log('abcas');
+  };
+  const goBack = () => {
+    navigation.goBack();
   }
-  const hideAndShow = true;
+  
   const ViewInput = () => {
     return (
-      <View style={{borderColor: '#000', borderWidth: 0.5, borderRadius: 10, flexDirection: 'row', width: 200, justifyContent: 'space-between'}} >
+      <View style={styles.containerView} >
         <TextInput 
           value={edit} 
           onChangeText={(e)=> setEdit(e)} 
           placeholder='E.g: Lio'
-
           />
-        <TouchableOpacity style={{marginLeft: 20,height: 30, width: 70, borderRadius: 10, backgroundColor: '#710', justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 15, color: '#FFF', fontWeight: '700'}}>
-            EDIT
+        <TouchableOpacity
+          onPress={editName}
+          style={styles.btnEdit}>
+          <Text style={styles.txtEdit}>
+            {strings.EDIT}
           </Text>
         </TouchableOpacity>
       </View>
     );
   };
-  const HandleEdit = () => {
-    
-    console.log('asd');
-  };
+
   return (
     <View style={styles.container}>
-      <Image style={styles.imgAvatar} source={{uri: user.avatar}} />
-      <View style={styles.nameUser}>
-        <View style={styles.name}>
-          <Title
-            style={
-              styles.txtUser
-            }>{`${user.first_name} ${user.last_name}`}</Title>
-          <TouchableOpacity onPress={HandleEdit}>
-            <Image
-              source={require('../../assets/icons/edit.png')}
-              style={styles.iconEdit}
-            />
-          </TouchableOpacity>
+      <TouchableOpacity 
+        onPress={goBack}
+        style={styles.btnBack}>
+        <Image source={Images.back} style={styles.imgBack} />
+      </TouchableOpacity>
+      <View style={{alignItems: 'center'}} >
+        <Image style={styles.imgAvatar} source={{uri:user.avatar}} />
+        <View style={styles.nameUser}>
+          <View style={styles.name}>
+            <Title
+              style={
+                styles.txtUser
+              }>{`${user.first_name} ${user.last_name}`}</Title>
+            <TouchableOpacity onPress={handleEdit}>
+              <Image
+                source={Images.edit}
+                style={styles.iconEdit}
+              />
+            </TouchableOpacity>
+          </View>
+          {hide ? <ViewInput /> : null}
+          <Caption style={styles.txtDes}>{`${user.email}`}</Caption>
         </View>
-        {hideAndShow ? <ViewInput /> : null}
-        <Caption style={styles.txtDes}>{`${user.email}`}</Caption>
       </View>
     </View>
   );
 };
 
-export default Personal;
+export default memo(Personal);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
-    alignItems: 'center',
+    backgroundColor: Colors.white,
+  },
+  containerView: {
+    borderColor: Colors.black, 
+    borderWidth: 0.5, 
+    borderRadius: 10, 
+    flexDirection: 'row', 
+    width: 200, 
+    justifyContent: 'space-between'
+  },
+  btnEdit: {
+    marginLeft: 20,
+    height: 30, 
+    width: 70, 
+    borderRadius: 10, 
+    backgroundColor: Colors.blue, 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   imgAvatar: {
     marginTop: 50,
@@ -97,5 +124,19 @@ const styles = StyleSheet.create({
   iconEdit: {
     height: 20,
     width: 20,
+  },
+  txtEdit: {
+    fontSize: 15, 
+    color: Colors.white, 
+    fontWeight: '700'
+  },
+  btnBack: {
+    marginLeft: 25, 
+    marginTop: 50
+  },
+  imgBack: {
+    height: 30, 
+    width: 30, 
+    tintColor: Colors.blue, 
   },
 });

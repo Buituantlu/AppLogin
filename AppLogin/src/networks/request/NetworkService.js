@@ -18,6 +18,7 @@ function getUsers(params) {
     url: api.GET_USER,
     method: method.GET,
     timeout: timeoutSeconds,
+    params: params,
   })
 }
 

@@ -1,65 +1,65 @@
-import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import React, {memo} from 'react';
+import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import {Drawer} from 'react-native-paper';
 import ItemDrawer from './ItemDrawer';
-import { getData } from '../../utils/AsyncStorage';
+import {storeData} from '../../utils/AsyncStorage';
+import {useNavigation} from '@react-navigation/native';
+import {AUTH_STACK} from '../../navigation/ScreenName';
+import {useSelector} from 'react-redux';
 import _ from 'lodash';
-import { useNavigation } from '@react-navigation/native';
+import Colors from '../../utils/Colors';
+import strings from '../../utils/Strings';
 
-const Profile = (props) => {
-  const CloseDrawer = () => props.navigation.closeDrawer();
+const Profile = props => {
   const navigation = useNavigation();
-  const [user, setUser] = React.useState([])
-  const getUser = async () =>  {
-    const info = await getData('InfoUser');
-    return info;
-  }
-  if(_.isEmpty(user)){
-    let users = null 
-    getUser().then(token => {
-    users = token
-    setUser(users)
-  })}
+
+  const user = useSelector(
+    state => state.getUserReducers.getUserReducer.users[0],
+  );
+
+  const logout = async () => {
+    await storeData('accessToken', '');
+    navigation.navigate(AUTH_STACK);
+  };
 
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
-        <TouchableOpacity onPress={CloseDrawer}>
-          <Image
-            source={require('../../assets/icons/X.png')}
-            style={styles.header}
-          />
-        </TouchableOpacity>
+        <Drawer.Section style={styles.infoUser}>
+          <ItemDrawer user={user} />
+        </Drawer.Section>
         <Drawer.Section style={styles.content}>
-          <TouchableOpacity
-            style={styles.btnContent}
-            onPress={() => {
-              navigation.navigate('Account')
-            }}>
-            <ItemDrawer user={user} />
+          <TouchableOpacity onPress={logout} style={styles.txtBtnLeft}>
+            <Text style={styles.txtBtnHeader}>{strings.Logout}</Text>
           </TouchableOpacity>
         </Drawer.Section>
       </DrawerContentScrollView>
     </View>
   );
 };
-export default Profile;
+export default memo(Profile);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 25,
-    backgroundColor: '#FFF',
-  },
-  header: {
-    tintColor: '#FF0000',
+    backgroundColor: Colors.white,
+    alignItems: 'center',
+    marginTop: 40
   },
   content: {
-    alignItems: 'center',
+    marginTop: 20,
+    borderRadius: 15,
+    backgroundColor: Colors.minRed,
   },
-  btnContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 50,
+  infoUser: {
+    marginTop: 20,
+    borderRadius: 15,
+  },
+  txtBtnHeader: {
+    color: Colors.white,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

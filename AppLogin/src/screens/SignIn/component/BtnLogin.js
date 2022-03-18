@@ -5,6 +5,8 @@ import { actionLogin } from '../action/LoginAction';
 import { storeData } from '../../../utils/AsyncStorage';
 import { useNavigation } from '@react-navigation/native';
 import { HOME_STACK } from '../../../navigation/ScreenName';
+import Colors from '../../../utils/Colors';
+import strings from '../../../utils/Strings';
 
 const BtnLogin = ({values}) => {
   const navigation = useNavigation()
@@ -23,10 +25,11 @@ const BtnLogin = ({values}) => {
   }
   const onError = (error) => {
     console.log('Login error: ', error)
+    alert(strings.loginFailed)
   }
   return (
     <TouchableOpacity onPress={LoginSignIn} style={styles.btnSignIn}>
-      <Text style={styles.txtButton}>Sign In</Text>
+      <Text style={styles.txtButton}>{strings.SignIn}</Text>
     </TouchableOpacity>
   );
 };
@@ -37,12 +40,12 @@ const styles = StyleSheet.create({
     btnSignIn: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#CD5C5C',
+        backgroundColor: Colors.minRed,
         height: 50,
         borderRadius: 10,
     },
     txtButton: {
-        color: '#FFF',
+        color: Colors.white,
         fontSize: 17,
         fontWeight: '700',
     },

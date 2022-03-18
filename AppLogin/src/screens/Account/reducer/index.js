@@ -2,12 +2,12 @@ import {
     GET_USER,
     GET_USER_SUCCEEDED,
     GET_USER_FAILED,
-  } from '../action/ActionTipe';
+  } from '../action/ActionType';
   import {ERROR_NETWORK} from '../../../networks/api/ActionNetwork';
   import {combineReducers} from 'redux';
 
   const initialState = {
-    items: {},
+    users: [],
     isLoading: false,
     error: false,
   };
@@ -28,14 +28,14 @@ import {
           ...state,
           isLoading: false,
           error: true,
-          items: action.response,
+          users: action.response.data.data,
         };
       case GET_USER_SUCCEEDED:
         return {
           ...state,
           isLoading: false,
           error: false,
-          items: action.response,
+          users: action.response.data.data,
         };
       case ERROR_NETWORK:
         return {
@@ -47,7 +47,6 @@ import {
         return state;
     }
   };
-  
   const getUserReducers = combineReducers({
     getUserReducer,
   });

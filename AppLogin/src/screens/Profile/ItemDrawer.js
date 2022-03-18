@@ -1,27 +1,37 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Colors from '../../utils/Colors';
+import strings from '../../utils/Strings';
+import Images from '../../utils/Images';
+import { AccountScreen } from '../../navigation/ScreenName';
 
 const ItemDrawer = ({user}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image source={{uri: user.avatar}} style={styles.imgAvatar} />
+      <Image source={{uri: user?.avatar}} style={styles.imgAvatar} />
       <View style={styles.name}>
         <Text style={styles.txtNameUser}>
-          {user.first_name} {user.last_name}
+          {user?.first_name} {user?.last_name}
         </Text>
-        <Text style={styles.txtEmail}>{user.email}</Text>
+        <Text style={styles.txtEmail}>{user?.email}</Text>
       </View>
-      <View style={styles.itemDraw}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(AccountScreen);
+        }}
+        style={styles.itemDraw}>
         <Image
-          source={require('../../assets/icons/home.png')}
+          source={Images.home}
           style={styles.imgDraw}
         />
-        <Text style={styles.txtDraw}>Home</Text>
+        <Text style={styles.txtDraw}>{strings.Home}</Text>
         <Image
-          source={require('../../assets/icons/right.png')}
+          source={Images.right}
           style={styles.imgRight}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -43,17 +53,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   txtNameUser: {
-    color: '#000', 
+    color: Colors.black, 
     fontSize: 20
   },
   txtEmail: {
-    color: '#000', 
+    color: Colors.black, 
     fontSize: 18
   },
   itemDraw: {
     flexDirection: 'row', 
     alignItems: 'center', 
-    marginTop: 20
+    marginTop: 20,
   },
   imgDraw: {
     height: 30, 
@@ -65,6 +75,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   imgRight: {
-    tintColor: '#C0C0C0'
+    tintColor: Colors.gray,
   },
 });

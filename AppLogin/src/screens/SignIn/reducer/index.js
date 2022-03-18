@@ -2,7 +2,6 @@ import {
   LOGIN,
   LOGIN_FAILED,
   LOGIN_SUCCEEDED,
-  LOG_OUT,
 } from '../action/ActionType';
 import {ERROR_NETWORK} from '../../../networks/api/ActionNetwork';
 import {combineReducers} from 'redux';

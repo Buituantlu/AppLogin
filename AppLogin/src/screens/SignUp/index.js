@@ -6,39 +6,42 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import Colors from '../../utils/Colors';
+import { SignInScreen } from '../../navigation/ScreenName';
+import strings from '../../utils/Strings';
 
 const SignUp = ({navigation}) => {
   const Continue = () => {
-    navigation.navigate('SignIn');
+    navigation.navigate(SignInScreen);
   }
 
   const LoginSignIn = () => {
-    navigation.navigate('SignIn');
+    navigation.navigate(SignInScreen);
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Sign Up</Text>
+        <Text style={styles.title}>{strings.SignUp}</Text>
         <View style={styles.email}>
-          <Text style={styles.txtEmail}>Email</Text>
+          <Text style={styles.txtEmail}>{strings.Email}</Text>
           <TextInput placeholder="Your email address" />
         </View>
         <View style={styles.password}>
-          <Text style={styles.txtPassword}>Password</Text>
+          <Text style={styles.txtPassword}>{strings.Password}</Text>
           <TextInput />
         </View>
         <TouchableOpacity
           onPress={Continue}
           style={styles.button}>
-          <Text style={styles.txtButton}>Continue</Text>
+          <Text style={styles.txtButton}>{strings.Continue}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.txtFooter}>Have an Account?</Text>
+        <Text style={styles.txtFooter}>{strings.Account}</Text>
         <TouchableOpacity
           onPress={LoginSignIn}>
-          <Text style={styles.txtSignIn}>Sign In</Text>
+          <Text style={styles.txtSignIn}>{strings.SignIn}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -50,7 +53,7 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    backgroundColor: '#FFF'
+    backgroundColor: Colors.white,
   },
   header: {
     flex: 1, 
@@ -64,22 +67,22 @@ const styles = StyleSheet.create({
   },
   email: {
     borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
+    borderBottomColor: Colors.gray,
     marginBottom: 40,
   },
   txtEmail: {
-    color: '#FF0000',
+    color: Colors.red,
     fontSize: 16,
     fontWeight: '700',
     paddingBottom: 15,
   },
   password: {
     borderBottomWidth: 1,
-    borderBottomColor: '#C0C0C0',
+    borderBottomColor:Colors.gray,
     marginBottom: 30,
   },
   txtPassword: {
-    color: '#FF0000',
+    color: Colors.red,
     fontSize: 16,
     fontWeight: '700',
     paddingBottom: 15,
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   txtButton: {
-    color: '#FFF', 
+    color: Colors.white, 
     fontSize: 17, 
     fontWeight: '700'
   },
@@ -102,13 +105,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   txtFooter: {
-    color: '#C0C0C0',
+    color: Colors.gray,
     fontSize: 16,
     fontWeight: '700',
     marginRight: 8,
   },
   txtSignIn: {
-    color: '#FF0000', 
+    color: Colors.red, 
     fontSize: 16, 
     fontWeight: '700'
   },

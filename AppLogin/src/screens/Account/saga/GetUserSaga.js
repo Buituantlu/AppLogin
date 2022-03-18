@@ -4,7 +4,7 @@ import {
     GET_USER,
     GET_USER_SUCCEEDED,
     GET_USER_FAILED,
-} from '../action/ActionTipe';
+} from '../action/ActionType';
 import {takeLatest} from 'redux-saga/effects';
 import {SUCCESS_CODE} from '../../../utils/Constants';
 
